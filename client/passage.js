@@ -26,12 +26,13 @@ passageFunctions.edit = function() {
 passageFunctions.save = function(content) {
     var $content = this.div().find('.passage-content');
     var lines = content.split("\n");
-    this.setTitle(lines.shift());
-    this.content = lines.join("\n");
-    this.editing = false;
-    this.refreshLinks(true);
+    if (this.setTitle(lines.shift())) {
+      this.content = lines.join("\n");
+      this.editing = false;
+      this.refreshLinks(true);
     
-    $content.text(this.content);
+      $content.text(this.content);
+    }
 };
 
 passageFunctions.refreshLinks = function(create) {
@@ -56,16 +57,25 @@ passageFunctions.refreshLinks = function(create) {
 
 passageFunctions.setTitle = function(newTitle) {
   if (this.title != newTitle) {
+    if (passages[newTitle]) {
+      alert("Hey! A passage with that title already exists!");
+      return false;
+    }
+    if (newTitle == "") {
+      alert("Oi! You have to give me a title!");
+      return false;
+    }
     delete passages[this.title];
     this.title = newTitle;
     passages[this.title] = this;
-    var linksFromIdx = passage.linksFrom.length
+    var linksFromIdx = this.linksFrom.length
     while (linksFromIdx > 0) {
       linksFromIdx--;
       this.linksFrom[linksFromIdx].refreshLinks(false);
     }
     this.div().find('.passage-title').text(this.title);
   }
+  return true;
 };
 
 passageFunctions.drawPaths = function() {
@@ -121,6 +131,8 @@ passageFunctions.remove = function() {
     this.linksFrom[linksFromIdx].refreshLinks(false);
   }
   this.div().remove();
+  this.links = [];
+  this.drawPaths();
   delete passages[this.title];
 }
 

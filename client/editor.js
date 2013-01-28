@@ -42,12 +42,7 @@ $(function() {
     $(this).attr('download', storyTitle + '.json');
   });
 
-  //Load from drag/dropped file.
-  document.body.addEventListener('drop', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    var files = e.dataTransfer.files;
-
+  var load = function(files) {
     console.log(files);
 
     if (files.length > 0) {
@@ -67,13 +62,38 @@ $(function() {
           passage.y = loadedPassage.y;
           passages[passage.title] = passage;
         }
+        for (var passage in passages) {
+          passages[passage].refreshLinks();
+        }
       };
       reader.readAsText(files[0]);
     }
+  };
+
+  //Load from drag/dropped file.
+  document.body.addEventListener('drop', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var files = e.dataTransfer.files;
+    load(files);
   }, false);
+
   document.body.addEventListener('dragover', function(e) {
     e.preventDefault();
     e.stopPropagation();
     e.dataTransfer.dropEffect = 'open';
   }, false);
+
+  $('#load').click(function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $('#loadInput').trigger('click');
+  });
+
+  $('#loadInput').change(function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var files = e.target.files;
+    load(files);
+  });
 });
