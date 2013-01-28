@@ -58,6 +58,10 @@ body {
   height: 130px;
 }
 
+.passage-content .reset-button {
+  float: right;
+}
+
 #canvas {
   margin: 0px;
   padding: 0px;

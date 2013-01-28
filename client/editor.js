@@ -53,6 +53,9 @@ $(function() {
           passages[title].remove();
         }
 
+        passages = {};
+        paper.clear();
+
         var loadedPassages = JSON.parse(e.target.result);
         for (var idx in loadedPassages) {
           var loadedPassage = loadedPassages[idx];
@@ -62,8 +65,8 @@ $(function() {
           passage.y = loadedPassage.y;
           passages[passage.title] = passage;
         }
-        for (var passage in passages) {
-          passages[passage].refreshLinks();
+        for (var title in passages) {
+          passages[title].refreshLinks();
         }
       };
       reader.readAsText(files[0]);

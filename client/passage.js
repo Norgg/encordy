@@ -7,7 +7,7 @@ passageFunctions.edit = function() {
     var $content = this.div().find('.passage-content');
     
     var $input = $('<textarea></textarea>');
-    $input.val(this.title + "\n" + $content.text());
+    $input.val(this.title + "\n" + this.content);
     $content.html($input);
     $input.focus();
     passage.editing = true;
@@ -18,6 +18,14 @@ passageFunctions.edit = function() {
       e.preventDefault();
       e.stopPropagation();
       passage.save($input.val());
+    });
+    
+    var $resetButton = $('<button class="reset-button">Reset</button>');
+    $content.append($resetButton);
+    $resetButton.click(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      passage.resetInput();
     });
   }
 };
@@ -65,6 +73,10 @@ passageFunctions.setTitle = function(newTitle) {
       alert("Oi! You have to give me a title!");
       return false;
     }
+    if (this.title == "Start") {
+      alert("Nope! Can't rename this, gotta have a place to start.");
+      return false;
+    }
     delete passages[this.title];
     this.title = newTitle;
     passages[this.title] = this;
@@ -77,6 +89,10 @@ passageFunctions.setTitle = function(newTitle) {
   }
   return true;
 };
+
+passageFunctions.resetInput = function() {
+  this.div().find('textarea').val(this.title + "\n" + this.content);
+}
 
 passageFunctions.drawPaths = function() {
   for (var i in this.paths) {
@@ -125,6 +141,9 @@ passageFunctions.enter = function() {
 
 passageFunctions.remove = function() {
   //Remove any links to this passage.
+  for (var i in this.paths) {
+    this.paths[i].remove();
+  }
   var linksFromIdx = this.linksFrom.length;
   while (linksFromIdx > 0) {
     linksFromIdx--;
@@ -132,7 +151,6 @@ passageFunctions.remove = function() {
   }
   this.div().remove();
   this.links = [];
-  this.drawPaths();
   delete passages[this.title];
 }
 
