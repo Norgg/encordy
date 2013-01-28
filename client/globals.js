@@ -1,3 +1,4 @@
+storyTitle = "Encordy";
 passages = {};
 newPassageCount = 0;
 nextPassageID = 0;
