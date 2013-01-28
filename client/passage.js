@@ -241,7 +241,7 @@ function loadStory(storyString) {
 }
 
 function storyToJSON() {
-  var passagesToSave = [];
+  var passagesToSave = {};
 
   for (passageID in passages) {
     passage = passages[passageID];
@@ -250,7 +250,7 @@ function storyToJSON() {
     savePassage.content = passage.content;
     savePassage.x = passage.x;
     savePassage.y = passage.y;
-    passagesToSave.push(savePassage);
+    passagesToSave[passage.title] = savePassage;
   }
 
   var story = {
@@ -258,4 +258,31 @@ function storyToJSON() {
     passages: passagesToSave
   };
   return JSON.stringify(story);
+}
+
+function storyToHTML() {
+  var $html = $('<html></html>');
+  var $style = $('<style>body { font-family: sans-serif; background: #554; padding: 0px; margin: 0px; color: white; font-size: 1.1em; white-space: pre-wrap; } #header { margin: 0px; padding: 10px; width: 100%; font-size: 2em; border-bottom: 1px solid white; background: #445; } #player { width: 500px; margin: 10px; } a { color: #ccc; } </style>');
+  var $jquery = $('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>');
+  var $passages = $('<script>passages=' + storyToJSON() + '.passages;</script>');
+  var $enter = $('<script>enter=' + passageFunctions.enter + '</script>');
+  $html.append($style);
+  $html.append($jquery);
+  $html.append($passages);
+  $html.append($enter);
+
+  var $body = $('<body></body>');
+
+  var $header = $('<div id="header"></div>');
+  $header.text(storyTitle);
+  var $player = $('<div id="player"><div id="player-content"></div></div>');
+  $body.append($header);
+  $body.append($player);
+
+  $html.append($body);
+  
+  var $init = $('<script>for (var i in passages) { passages[i].enter = enter; }; passages["Start"].enter(); $("#player").on("click", ".passage-link", function(e) { e.preventDefault(); passages[$(e.target).attr("href")].enter(); });</script>');
+  $body.append($init);
+
+  return $html.wrap('<p>').parent().html();
 }
