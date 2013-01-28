@@ -133,8 +133,8 @@ passageFunctions.enter = function() {
       passageHtml = passageHtml.replace(match[0], $a.wrap('<p>').parent().html());
       //this.link(passages[title]);
     }
-    passageHtml = passageHtml.replace(/\n/g, '<br/>');
   }
+  //passageHtml = passageHtml.replace(/\n/g, '<br/>');
 
   $('#player-content').html(passageHtml);
 };
@@ -209,4 +209,53 @@ function createPassage(title, content) {
   passages[title] = passage;
 
   return passage;
+}
+
+function loadStory(storyString) {
+  //Remove existing passages.
+  for (var title in passages) {
+    passages[title].remove();
+  }
+
+  passages = {};
+  paper.clear();
+
+  var story = JSON.parse(storyString);
+  var loadedPassages = story.passages;
+
+  for (var idx in loadedPassages) {
+    var loadedPassage = loadedPassages[idx];
+    var passage = createPassage(loadedPassage.title, loadedPassage.content);
+    passage.div().offset({'left': loadedPassage.x, 'top': loadedPassage.y});
+    passage.x = loadedPassage.x;
+    passage.y = loadedPassage.y;
+    passages[passage.title] = passage;
+  }
+  for (var title in passages) {
+    passages[title].refreshLinks();
+  }
+  paper.setSize($(document).width(), $(document).height());
+  
+  storyTitle = story.title;
+  $('.title').text(storyTitle);
+}
+
+function storyToJSON() {
+  var passagesToSave = [];
+
+  for (passageID in passages) {
+    passage = passages[passageID];
+    savePassage = {};
+    savePassage.title = passage.title;
+    savePassage.content = passage.content;
+    savePassage.x = passage.x;
+    savePassage.y = passage.y;
+    passagesToSave.push(savePassage);
+  }
+
+  var story = {
+    title: storyTitle,
+    passages: passagesToSave
+  };
+  return JSON.stringify(story);
 }
