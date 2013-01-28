@@ -94,10 +94,11 @@ function createPassage(title, content) {
     pattern = /\[\[(.*?)\]\]/g;
     var match;
     while (match = pattern.exec(this.content)) {
-      if (passages[match[1]]) {
-        this.link(passages[match[1]]);
+      var title = match[1].split("|")[0]
+      if (passages[title]) {
+        this.link(passages[title]);
       } else if (create) {
-        this.link(createPassage(match[1], ""));
+        this.link(createPassage(title, ""));
       }
     }
     this.drawPaths();
