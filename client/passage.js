@@ -1,10 +1,3 @@
-passages = {};
-newPassageCount = 0;
-nextPassageID = 0;
-$story = $('#story');
-
-paper = Raphael($('#canvas')[0], $(document).width(), $(document).height());
-
 function createPassage(title, content) {
   var id = title;
   var divID = "passage-" + nextPassageID++;
@@ -136,6 +129,32 @@ function createPassage(title, content) {
     other.linksFrom.push(this);
     this.drawPaths();
   };
+
+  passage.enter     = function() {
+    var passageHtml = this.content;
+
+    //replace links
+    pattern = /\[\[(.*?)\]\]/g;
+    var match;
+    while (match = pattern.exec(this.content)) {
+      var toks = match[1].split("|");
+      var title = toks[0];
+      var linkText = title;
+      if (toks.length > 1) {
+        linkText = toks[1];
+      }
+      if (passages[title]) {
+        $a = $('<a class="passage-link"></a>');
+        $a.text(linkText);
+        $a.attr('href', title);
+        passageHtml = passageHtml.replace(match[0], $a.wrap('<p>').parent().html());
+        //this.link(passages[title]);
+      }
+      passageHtml = passageHtml.replace(/\n/g, '<br/>');
+    }
+
+    $('#player-content').html(passageHtml);
+  };
   
   passage.links     = [];
   passage.linksFrom = [];
@@ -145,20 +164,3 @@ function createPassage(title, content) {
 
   return passage;
 }
-
-$(function() {
-  createPassage('Start', 'Your story will display this passage first. Edit it by clicking it.');  
-
-  $('body').on('click', '.passage', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    var title = $(this).find('.passage-title').text();
-    var passage = passages[title];
-    passage.edit();
-  });
-
-  $('#new-passage').click(function(e) {
-    newPassageCount++;
-    createPassage("New passage #" + newPassageCount, "");
-  });
-});
