@@ -61,6 +61,9 @@ body {
 .passage-content .reset-button {
   float: right;
 }
+.passage-content .delete-button {
+  float: right;
+}
 
 #canvas {
   margin: 0px;

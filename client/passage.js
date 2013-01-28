@@ -27,6 +27,16 @@ passageFunctions.edit = function() {
       e.stopPropagation();
       passage.resetInput();
     });
+
+    if (passage.title != "Start") {
+      var $deleteButton = $('<button class="delete-button">Delete</button>');
+      $content.append($deleteButton);
+      $deleteButton.click(function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (confirm("Delete passage?")) passage.remove();
+      });
+    }
   }
 };
 
