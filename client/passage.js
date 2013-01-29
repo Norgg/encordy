@@ -154,10 +154,8 @@ passageFunctions.enter = function() {
       $a.text(linkText);
       $a.attr('href', title);
       passageHtml = passageHtml.replace(match[0], $a.wrap('<p>').parent().html());
-      //this.link(passages[title]);
     }
   }
-  //passageHtml = passageHtml.replace(/\n/g, '<br/>');
 
   $('#player-content').html(passageHtml);
 };
