@@ -40,6 +40,11 @@ body {
 
 #help-text {
   display: none;
+  background: #ccc;
+  color: black;
+  width: 500px;
+  margin-left: 350px;
+  z-index: 10000000;
 }
 
 #story {
