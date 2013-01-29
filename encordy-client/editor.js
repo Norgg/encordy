@@ -85,6 +85,9 @@ $(function() {
     $(this).attr('download', storyTitle + '.html');
   });
 
+  $('#help').click(function(e) {
+    $('#help-text').toggle(200);
+  });
   /*
   $('body').mousedown(function(e) {
     if ($(e.target).attr('class') && $(e.target).attr('class').indexOf("passage") >= 0) return false; 

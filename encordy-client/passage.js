@@ -161,6 +161,8 @@ passageFunctions.enter = function() {
 };
 
 passageFunctions.remove = function() {
+  delete passages[this.title];
+  
   //Remove any links to this passage.
   for (var i in this.paths) {
     this.paths[i].remove();
@@ -172,7 +174,6 @@ passageFunctions.remove = function() {
   }
   this.div().remove();
   this.links = [];
-  delete passages[this.title];
 }
 
 function createPassage(title, content) {

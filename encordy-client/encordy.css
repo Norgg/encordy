@@ -9,22 +9,37 @@ body {
 
 #menu {
   width: 100%;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #777;
   background: #445;
   color: #fff;
   margin: 0px;
   padding: 5px 0px;
 }
 
+
 #menu a {
   color: #fff;
-  margin: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 #menu h1 {
   margin-left: 10px;
   margin-bottom: 10px;
   margin-top: 0px;
+}
+
+.tools {
+  border-left: 1px solid #777;
+  border-right: 1px solid #777;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  padding: 5px;
+}
+
+#help-text {
+  display: none;
 }
 
 #story {

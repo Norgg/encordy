@@ -8,14 +8,29 @@
     <div id="editor">
       <div id="menu">
         <h1 class="title">Encordy</h1>
-        <a href="javascript:void(0)" id="new-passage">Add Passage</a>
-        <a href="javascript:void(0)" id="rename">Rename</a>
-        <a href="javascript:void(0)" id="save">Save</a>
-        <a href="javascript:void(0)" id="load">Load</a>
-        <a href="javascript:void(0)" id="play">Test</a>
-        <a href="javascript:void(0)" id="share">Share</a>
-        <a href="javascript:void(0)" id="export">Export</a>
+          <span id="create-tools" class="tools">
+            <a href="javascript:void(0)" id="new-passage">Add Passage</a>
+            <a href="javascript:void(0)" id="rename">Rename</a>
+            <a href="javascript:void(0)" id="save">Save</a>
+            <a href="javascript:void(0)" id="load">Load</a>
+          </span>
+          <span id="share-tools" class="tools">
+            <a href="javascript:void(0)" id="play">Test</a>
+            <a href="javascript:void(0)" id="share">Share</a>
+            <a href="javascript:void(0)" id="export">Export</a>
+          </span>
+          <span id="help-tools" class="tools">
+            <a href="javascript:void(0)" id="help">Help</a> 
+            <a href="http://norgg.org/files/wandering.json" id="example">Download Example</a>
+          </span>
         <input type="file" id="loadInput" style="display: none;" value="Load"/>
+      </div>
+      <div id="help-text">
+        Put words in the boxes.<br/>
+        Link to a new passage like [[this]].<br/>
+        Create a passage called &lt;&lt;css&gt;&gt; to style your story.<br/>
+        HTML tags work.<br/>
+        All a bit alpha right now. Find me on irc or twitter if something is broken.<br/>
       </div>
       <div id="story">
       </div>
