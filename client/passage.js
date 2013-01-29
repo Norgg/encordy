@@ -205,8 +205,12 @@ function createPassage(title, content) {
         for (var i in passage.linksFrom) {
           passage.linksFrom[i].drawPaths();
         }
-        if (paper.width != $(document).width() || paper.height != $(document).height()){
+        if (paper.width != $(document).width() || paper.height != $(document).height()) {
           paper.setSize($(document).width(), $(document).height());
+        }
+        if ($('body').width() != $(document).width() || $('body').height != $(document).height()) {
+          $('body').height($(document).height());
+          $('body').width($(document).width());
         }
       }
     });
