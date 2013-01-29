@@ -67,7 +67,11 @@ passageFunctions.refreshLinks = function(create) {
     if (passages[title]) {
       this.link(passages[title]);
     } else if (create) {
-      this.link(createPassage(title, ""));
+      var newPassage = createPassage(title, "");
+      newPassage.x = this.x + 230 + (10 * this.links.length);
+      newPassage.y = this.y;
+      newPassage.div().offset({left: newPassage.x, top: newPassage.y});
+      this.link(newPassage);
     }
   }
   this.drawPaths();
