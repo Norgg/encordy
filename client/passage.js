@@ -288,10 +288,15 @@ function storyToJSON() {
 function storyToHTML() {
   var $html = $('<html></html>');
   var $style = $('<style>body { font-family: sans-serif; background: #544; padding: 0px; margin: 0px; color: white; font-size: 1.1em; white-space: pre-wrap; } #header { margin: 0px; padding: 10px; width: 100%; font-size: 2em; border-bottom: 1px solid white; background: #445; } #player { width: 500px; margin: 10px; } a { color: #ccc; } </style>');
+  var $customStyle = $('<style></style>');
+  if (passages['<<css>>']) {
+    $customStyle.text(passages['<<css>>'].content);
+  }
   var $jquery = $('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>');
   var $passages = $('<script>passages=' + storyToJSON() + '.passages;</script>');
   var $enter = $('<script>enter=' + passageFunctions.enter + '</script>');
   $html.append($style);
+  $html.append($customStyle);
   $html.append($jquery);
   $html.append($passages);
   $html.append($enter);

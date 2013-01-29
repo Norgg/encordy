@@ -15,6 +15,7 @@ $(function() {
   });
 
   $('#edit').click(function(e) {
+    $('#custom-style').text('');
     $('#player').hide(100, function() {
       $('#editor,.passage').show(100, function() {
       });
