@@ -99,8 +99,8 @@ $(function() {
       e.stopPropagation();
       if (Math.abs(e.pageX - lastMouse[0]) < 100 && Math.abs(e.pageY - lastMouse[1]) < 100 &&
         Math.abs(e.pageX - lastMouse[0]) > 0 && Math.abs(e.pageY - lastMouse[1]) > 0) {
-        $(window).scrollLeft($(window).scrollLeft() + lastMouse[0] - e.pageX);
-        $(window).scrollTop($(window).scrollTop() + lastMouse[1] - e.pageY);
+        $("html,body").animate({scrollLeft: $("body").scrollLeft() + lastMouse[0] - e.pageX}, 0);
+        $("html,body").animate({scrollTop: $("body").scrollTop() + lastMouse[1] - e.pageY}, 0);
       }
     }
     lastMouse[0] = e.pageX;
