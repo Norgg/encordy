@@ -6,7 +6,7 @@ passageFunctions.edit = function() {
     var passage = this;
     var $content = this.div().find('.passage-content');
     
-    var $input = $('<textarea></textarea>');
+    var $input = $('<textarea class=".passage-textarea"></textarea>');
     $input.val(this.title + "\n" + this.content);
     $content.html($input);
     $input.focus();

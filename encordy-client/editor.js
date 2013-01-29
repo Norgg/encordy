@@ -84,4 +84,20 @@ $(function() {
     $(this).attr('href', data);
     $(this).attr('download', storyTitle + '.html');
   });
+
+  $('body').mousemove(function(e) {
+    if ($(e.target).attr('class') && $(e.target).attr('class').indexOf("passage") >= 0) return true; 
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.which == 1) {
+
+      if (Math.abs(e.pageX - lastMouse[0]) < 100 && Math.abs(e.pageY - lastMouse[1]) < 100 &&
+        Math.abs(e.pageX - lastMouse[0]) > 0 && Math.abs(e.pageY - lastMouse[1]) > 0) {
+        $(window).scrollLeft($(window).scrollLeft() + lastMouse[0] - e.pageX);
+        $(window).scrollTop($(window).scrollTop() + lastMouse[1] - e.pageY);
+      }
+    }
+    lastMouse[0] = e.pageX;
+    lastMouse[1] = e.pageY;
+  });
 });
