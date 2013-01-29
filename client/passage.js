@@ -109,15 +109,24 @@ passageFunctions.resetInput = function() {
 }
 
 passageFunctions.drawPaths = function() {
-  for (var i in this.paths) {
-    this.paths[i].remove();
-  }
   for (var i in this.links) {
     var link = this.links[i];
-    var pathStr = "M" + (this.x + this.width/2) + "," + (this.y + this.height/2) + " L" + (link.x+link.width/2) + "," + (link.y+link.height/2);
-    var path = paper.path(pathStr);
-    path.attr('stroke-width', 3)
-    this.paths.push(path)
+    var pathAttrs = [
+      'M', (this.x + this.width/2), (this.y + this.height/2),
+      'L', (link.x+link.width/2),   (link.y+link.height/2)
+    ]
+
+    if (i < this.paths.length) {
+      this.paths[i].attr({path: pathAttrs});
+    } else {
+      var pathStr = pathAttrs.join(" ");
+      var path = paper.path(pathStr);
+      path.attr('stroke-width', 3)
+      this.paths.push(path)
+    }
+  }
+  while (this.paths.length > this.links.length) {
+    this.paths.pop().remove();
   }
 };
 
