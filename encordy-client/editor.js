@@ -85,6 +85,7 @@ $(function() {
     $(this).attr('download', storyTitle + '.html');
   });
 
+  /*
   $('body').mousedown(function(e) {
     if ($(e.target).attr('class') && $(e.target).attr('class').indexOf("passage") >= 0) return false; 
     mouseDown = true;
@@ -106,4 +107,5 @@ $(function() {
     lastMouse[0] = e.pageX;
     lastMouse[1] = e.pageY;
   });
+  */
 });
