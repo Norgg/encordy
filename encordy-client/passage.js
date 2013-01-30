@@ -288,7 +288,7 @@ function storyToJSON() {
 
 function storyToHTML() {
   var $html = $('<html></html>');
-  var $style = $('<style>body { font-family: sans-serif; background: #544; padding: 0px; margin: 0px; color: white; font-size: 1.1em; white-space: pre-wrap; } #header { margin: 0px; padding: 10px; width: 100%; font-size: 2em; border-bottom: 1px solid white; background: #445; } #player { width: 500px; margin: 10px; } a { color: #ccc; } </style>');
+  var $style = $('<style>body { font-family: sans-serif; background: #544; padding: 0px; margin: 0px; color: white; font-size: 1.1em; white-space: pre-wrap; } #header { margin: 0px; padding: 10px; width: 100%; border-bottom: 1px solid white; background: #445; } #player { width: 500px; margin: 10px; } a { color: #ccc; } </style>');
   var $customStyle = $('<style></style>');
   if (passages['<<css>>']) {
     $customStyle.text(passages['<<css>>'].content);
@@ -305,14 +305,24 @@ function storyToHTML() {
   var $body = $('<body></body>');
 
   var $header = $('<div id="header"></div>');
-  $header.text(storyTitle);
+  var $title = $('<h1></h1>');
+  $title.text(storyTitle);
+  $header.append($title);
+
+  var $restart = $('<a id="restart" href="javascript: void(0);">Restart</a> ');
+  $header.append($restart);
+  $header.append(" ");
+  var $edit = $('<a id="edit">Edit</a>');
+  $edit.attr('href', location.protocol + "//" + location.host + location.pathname + '#edit:' + btoa(storyToJSON()));
+  $header.append($edit);
+
   var $player = $('<div id="player"><div id="player-content"></div></div>');
   $body.append($header);
   $body.append($player);
 
   $html.append($body);
   
-  var $init = $('<script>for (var i in passages) { passages[i].enter = enter; }; passages["Start"].enter(); $("#player").on("click", ".passage-link", function(e) { e.preventDefault(); passages[$(e.target).attr("href")].enter(); });</script>');
+  var $init = $('<script>for (var i in passages) { passages[i].enter = enter; }; passages["Start"].enter(); $("#player").on("click", ".passage-link", function(e) { e.preventDefault(); passages[$(e.target).attr("href")].enter(); }); $("#restart").click(function(e) { passages["Start"].enter(); });</script>');
   $body.append($init);
 
   return $html.wrap('<p>').parent().html();

@@ -16,6 +16,9 @@ $(function() {
     loadStory(atob(window.location.hash.slice(6)));
     play();
   }
+  if (window.location.hash.indexOf('#edit:') == 0) {
+    loadStory(atob(window.location.hash.slice(6)));
+  }
 
   $('#play').click(function(e) {
     e.preventDefault();
