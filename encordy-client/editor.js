@@ -75,12 +75,12 @@ $(function() {
     load(files);
   });
 
-  $('#share').mouseover(function(e) {
+  /*$('#share').mouseover(function(e) {
     $('#share').attr('href', '#play:' + btoa(storyToJSON()));
-  });
+  });*/
 
   $('#export').click(function(e) {
-    var data = 'data:text/html,' + encodeURIComponent(storyToHTML());
+    var data = 'data:Application/octet-stream,' + encodeURIComponent(storyToHTML());
     $(this).attr('href', data);
     $(this).attr('download', storyTitle + '.html');
   });
