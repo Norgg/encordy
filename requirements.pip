@@ -1,0 +1,5 @@
+gunicorn
+django-extensions
+gevent
+gevent-socketio
+

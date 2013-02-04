@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
+from socketio import socketio_manage
+from namespaces import StoryNamespace
 from models import Story, Passage
 
 def home(request):
@@ -23,4 +25,7 @@ def play_story(request, key=None):
 def json_story(request, key=None):
     json = Story.objects.get(key=key).json()
     return HttpResponse(json, content_type="application/json")
-    
+
+def socket(request):
+    socketio_manage(request.environ, namespaces={'': StoryNamespace}, request=request)
+    return {}
