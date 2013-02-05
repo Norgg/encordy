@@ -23,11 +23,15 @@ socket.on('passage', function(data) {
     console.log("Passage: " + data.title, data);
     var passageUpdate = data;
     var passage = passages[passageUpdate.title];
-    if (passageUpdate.content) {
-        if (passage) {
+    if (passage) {
+        if (passageUpdate.content) {
             passage.save(passageUpdate.title + "\n" + passageUpdate.content);
-        } else {
+        } 
+    } else {
+        if (passageUpdate.content) {
             passage = createPassage(passageUpdate.title, passageUpdate.content)
+        } else {
+            passage = createPassage(passageUpdate.title, "")
         }
     }
     
