@@ -1,5 +1,5 @@
 $(function() {
-  createPassage('Start', 'Your story will display this passage first. Edit it by clicking it.');  
+  //createPassage('Start', 'Your story will display this passage first. Edit it by clicking it.');  
 
   $('body').on('click', '.passage', function(e) {
     e.preventDefault();

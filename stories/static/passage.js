@@ -120,8 +120,8 @@ passageFunctions.moveTo = function(x, y) {
     this.width = $div.width();
     this.height = $div.height();
     this.drawPaths();
-    for (var i in passage.linksFrom) {
-        passage.linksFrom[i].drawPaths();
+    for (var i in this.linksFrom) {
+        this.linksFrom[i].drawPaths();
     }
 }
 
@@ -260,7 +260,7 @@ function createPassage(title, content) {
                     $('body').height($(document).height());
                     $('body').width($(document).width());
                 }
-                passage.sendPos();
+                //passage.sendPos();
             },
             stop: function() {
                 console.log("Sending pos update.");

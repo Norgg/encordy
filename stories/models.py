@@ -28,10 +28,10 @@ class Passage(models.Model):
 
     def as_dict(self):
         return dict(
-            title   = title,
-            content = content,
-            x       = x,
-            y       = y
+            title   = self.title,
+            content = self.content,
+            x       = self.x,
+            y       = self.y
         )
 
     def json(self):

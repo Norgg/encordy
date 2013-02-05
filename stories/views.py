@@ -16,6 +16,9 @@ def edit_story(request, key=None):
             story.owner = request.user
         story.key = key
         story.save()
+
+        Passage.objects.create(story=story, title="Start", content="Your story will display this passage first. Edit it by clicking it.", x=10, y=70)
+
     return render(request, 'edit.html', dict(story=story))
 
 def play_story(request, key=None):

@@ -20,7 +20,7 @@ socket.on('connected', function(data) {
 });
 
 socket.on('passage', function(data) {
-    //console.log("Passage: ", data);
+    console.log("Passage: " + data.title, data);
     var passageUpdate = data;
     var passage = passages[passageUpdate.title];
     if (passageUpdate.content) {
