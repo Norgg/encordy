@@ -47,20 +47,14 @@
       <div id="player-content"></div>
     </div>
 
-    <!--<script src="/static/jquery.min.js"></script>
+    <script src="/static/socket.io.min.js"></script>
+    <script>var storyKey = '{{story.key}}';</script>
+    <script src="/static/jquery.min.js"></script>
     <script src="/static/jquery-ui.min.js"></script>
     <script src="/static/raphael-min.js"></script>
     <script src="/static/globals.js"></script>
     <script src="/static/passage.js"></script>
     <script src="/static/editor.js"></script>
-    <script src="/static/player.js"></script>-->
-    <script src="/static/socket.io.min.js"></script>
-    <script>
-        s = io.connect('', {})
-        s.on('passage', function(e) {
-            console.log("Passage: " + e);
-        });
-        s.emit('passage', 'yaywhat');
-    </script>
+    <script src="/static/player.js"></script>
   </body>
 </html>
