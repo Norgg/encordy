@@ -75,7 +75,7 @@ passageFunctions.refreshLinks = function(create) {
         } else if (create) {
             var newPassage = createPassage(title, "");
             this.link(newPassage);
-            newPassage.moveTo(this.x + 230 + (10*this.links.length), this.y);
+            newPassage.moveTo(this.x + 230 + (10*this.links.length), this.y, false);
             newPassage.sendAll();
         }
     }
@@ -115,9 +115,13 @@ passageFunctions.resetInput = function() {
     this.div().find('textarea').val(this.title + "\n" + this.content);
 }
 
-passageFunctions.moveTo = function(x, y) {
+passageFunctions.moveTo = function(x, y, animate) {
     var $div = this.div();
-    $div.offset({left: x, top: y});
+    if (animate) {
+        $div.animate({left: x, top: y}, 100);
+    } else {
+        $div.offset({left: x, top: y});
+    }
     this.x = x;
     this.y = y;
     this.width = $div.width();
@@ -265,7 +269,7 @@ function createPassage(title, content) {
                     $('body').height($(document).height());
                     $('body').width($(document).width());
                 }
-                passage.sendPos(false);
+                //passage.sendPos(false);
             },
             stop: function() {
                 console.log("Sending pos update.");
@@ -274,7 +278,7 @@ function createPassage(title, content) {
                 passage.sendPos(true);
             }
         });
-        passage.moveTo(10, 70 + 10*newPassageCount);
+        passage.moveTo(10, 70 + 10*newPassageCount, false);
         newPassageCount++;
     }
     

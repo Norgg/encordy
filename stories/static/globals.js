@@ -43,7 +43,7 @@ socket.on('passage', function(data) {
     }
     
     if (passage && passageUpdate.x && passageUpdate.y) {
-        passage.moveTo(passageUpdate.x, passageUpdate.y);
+        passage.moveTo(passageUpdate.x, passageUpdate.y, true);
     }
 });
 
