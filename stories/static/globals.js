@@ -1,3 +1,5 @@
+//TODO: Ew. Clean these up into a single object or something.
+
 var storyTitle = "Encordy";
 var passages = {};
 var newPassageCount = 0;
@@ -12,6 +14,8 @@ $('body').attr('unselectable', 'on')
  .css('user-select', 'none')
  .on('selectstart', false);
 
+
+// TODO: Especially this socket stuff.
 var socket = io.connect('', {})
 var connected = false;
 socket.on('connected', function(data) {
@@ -41,5 +45,9 @@ socket.on('passage', function(data) {
     if (passage && passageUpdate.x && passageUpdate.y) {
         passage.moveTo(passageUpdate.x, passageUpdate.y);
     }
+});
+
+socket.on('delete', function(passage) {
+    passages[passage].remove();
 });
 socket.emit('connect', storyKey);

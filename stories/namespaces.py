@@ -34,4 +34,11 @@ class StoryNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
             print(passage.title)
             self.emit('passage', passage.as_dict())
         self.emit('connected')
-
+    
+    def on_delete(self, story_key, passage):
+        print("Deleting %s" % passage)
+        try:
+            Passage.objects.get(story__key = story_key, title=passage).delete()
+        except Passage.DoesNotExist:
+            return
+        self.emit_to_room(story_key, 'delete', passage)

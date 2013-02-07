@@ -96,6 +96,8 @@ passageFunctions.setTitle = function(newTitle) {
             return false;
         }
         delete passages[this.title];
+        socket.emit('delete', storyKey, this.title);
+
         this.title = newTitle;
         passages[this.title] = this;
         var linksFromIdx = this.linksFrom.length
@@ -179,6 +181,7 @@ passageFunctions.enter = function() {
 
 passageFunctions.remove = function() {
     delete passages[this.title];
+    console.log("Removing passage " + this.title);
     
     //Remove any links to this passage.
     for (var i in this.paths) {
@@ -189,6 +192,7 @@ passageFunctions.remove = function() {
         linksFromIdx--;
         this.linksFrom[linksFromIdx].refreshLinks(false);
     }
+    socket.emit('delete', storyKey, this.title);
     this.div().remove();
     this.links = [];
 }
