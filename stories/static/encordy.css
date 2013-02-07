@@ -92,6 +92,7 @@ h1 a {
     margin: 0px;
     padding: 5px;
     white-space: pre-wrap;
+    overflow: hidden;
 }
 
 .passage-content textarea {
