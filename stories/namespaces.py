@@ -37,6 +37,9 @@ class StoryNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         #    self.emit('passage', passage.as_dict())
         #self.emit('rename_story', story.title)
         self.emit('connected', story.json())
+
+    def on_reconnect(self, story_key):
+        on_connect(self, story_key)
     
     def on_delete(self, story_key, passage):
         print("Deleting %s" % passage)

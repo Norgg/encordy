@@ -20,41 +20,68 @@ $('body').attr('unselectable', 'on')
 
 
 // TODO: Especially this socket stuff.
-var socket = io.connect('', {})
-var connected = false;
-socket.on('connected', function(data) {
-    connected = true;
-    console.log('connected.');
-    loadStory(data);
-});
-
-socket.on('passage', function(data) {
-    console.log("Passage: " + data.title, data);
-    var passageUpdate = data;
-    var passage = passages[passageUpdate.title];
-    if (passage) {
-        if (passageUpdate.content) {
-            passage.save(passageUpdate.title + "\n" + passageUpdate.content);
-        } 
-    } else {
-        if (passageUpdate.content) {
-            passage = createPassage(passageUpdate.title, passageUpdate.content)
-        } else {
-            passage = createPassage(passageUpdate.title, "")
+function connect() {
+    var sock = io.connect('')
+    sock.on('connected', function(data) {
+        if (!connected) {
+            connected = true;
+            console.log('connected.');
+            loadStory(data);
+            $('.passage').draggable('enable');
         }
-    }
-    
-    if (passage && passageUpdate.x && passageUpdate.y) {
-        passage.moveTo(passageUpdate.x, passageUpdate.y, true);
-    }
-});
+    });
 
-socket.on('delete', function(passage) {
-    passages[passage].remove();
-});
+    sock.on('passage', function(data) {
+        console.log("Passage: " + data.title, data);
+        var passageUpdate = data;
+        var passage = passages[passageUpdate.title];
+        if (passage) {
+            if (passageUpdate.content) {
+                passage.save(passageUpdate.title + "\n" + passageUpdate.content);
+            } 
+        } else {
+            if (passageUpdate.content) {
+                passage = createPassage(passageUpdate.title, passageUpdate.content)
+            } else {
+                passage = createPassage(passageUpdate.title, "")
+            }
+        }
+        
+        if (passage && passageUpdate.x && passageUpdate.y) {
+            passage.moveTo(passageUpdate.x, passageUpdate.y, true);
+        }
+    });
 
-socket.on('rename_story', function(title) {
-    storyTitle = title;
-    $('.title').text(storyTitle);
-});
-socket.emit('connect', storyKey);
+    sock.on('delete', function(passage) {
+        passages[passage].remove(false);
+    });
+
+    sock.on('rename_story', function(title) {
+        storyTitle = title;
+        $('.title').text(storyTitle);
+    });
+    sock.emit('connect', storyKey);
+
+    sock.on('disconnect', function(data) {
+        connected = false;
+        $('.title').text("DISCONNECTED, retrying...");
+        socket = null;
+        $('.passage').draggable('disable');
+        setTimeout(function() {
+            socket = connect();
+        }, 1000);
+    });
+
+    sock.on('connect_failed', function () {
+        $('.title').text("CONNECTION FAILED :(");
+    });
+    sock.on('error', function () {
+        $('.title').text("CONNECTION ERROR :(");
+    });
+
+    return sock;
+}
+
+var connected = false;
+var socket = connect();
+

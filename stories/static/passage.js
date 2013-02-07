@@ -44,7 +44,7 @@ passageFunctions.edit = function() {
             $deleteButton.click(function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                if (confirm("Delete passage?")) passage.remove();
+                if (confirm("Delete passage?")) passage.remove(true);
             });
         }
         $input.focus();
@@ -232,7 +232,7 @@ passageFunctions.enter = function() {
     $('#player-content').html(passageHtml);
 };
 
-passageFunctions.remove = function() {
+passageFunctions.remove = function(send) {
     delete passages[this.title];
     console.log("Removing passage " + this.title);
     
@@ -245,7 +245,9 @@ passageFunctions.remove = function() {
         linksFromIdx--;
         this.linksFrom[linksFromIdx].refreshLinks(false);
     }
-    socket.emit('delete', storyKey, this.title);
+    if (send) {
+        socket.emit('delete', storyKey, this.title);
+    }
     this.div().remove();
     this.links = [];
 }
@@ -344,7 +346,7 @@ function createPassage(title, content) {
 function loadStory(story) {
     //Remove existing passages.
     for (var title in passages) {
-        passages[title].remove();
+        passages[title].remove(false);
     }
 
     passages = {};
