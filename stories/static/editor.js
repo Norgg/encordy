@@ -77,6 +77,7 @@ $(function() {
   };
 
   //Load from drag/dropped file.
+  /*
   document.body.addEventListener('drop', function(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -103,15 +104,16 @@ $(function() {
     load(files);
   });
 
-  /*$('#share').mouseover(function(e) {
+  $('#share').mouseover(function(e) {
     $('#share').attr('href', '#play:' + btoa(storyToJSON()));
-  });*/
+  });
 
   $('#export').click(function(e) {
     var data = 'data:Application/octet-stream,' + encodeURIComponent(storyToHTML());
     $(this).attr('href', data);
     $(this).attr('download', storyTitle + '.html');
   });
+  */
 
   $('#help').click(function(e) {
     $('#help-text').toggle(200);
