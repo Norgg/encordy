@@ -76,6 +76,7 @@ passageFunctions.refreshLinks = function(create) {
             var newPassage = createPassage(title, "");
             this.link(newPassage);
             newPassage.moveTo(this.x + 230 + (10*this.links.length), this.y);
+            newPassage.sendAll();
         }
     }
     this.drawPaths();
@@ -197,21 +198,21 @@ passageFunctions.remove = function() {
     this.links = [];
 }
 
-passageFunctions.sendPos = function() {
+passageFunctions.sendPos = function(save) {
     if (connected) {
-        socket.emit('passage', storyKey, {title: this.title, x: this.x, y: this.y});
+        socket.emit('passage', storyKey, {title: this.title, x: this.x, y: this.y, save: save});
     };
 }
 
 passageFunctions.sendContent = function() {
     if (connected) {
-        socket.emit('passage', storyKey, {title: this.title, content: this.content});
+        socket.emit('passage', storyKey, {title: this.title, content: this.content, save: true});
     };
 }
 
 passageFunctions.sendAll = function() {
     if (connected) {
-        socket.emit('passage', storyKey, {title: this.title, content: this.content, x: this.x, y: this.y});
+        socket.emit('passage', storyKey, {title: this.title, content: this.content, x: this.x, y: this.y, save: true});
     };
 }
 
@@ -264,13 +265,13 @@ function createPassage(title, content) {
                     $('body').height($(document).height());
                     $('body').width($(document).width());
                 }
-                //passage.sendPos();
+                passage.sendPos(false);
             },
             stop: function() {
                 console.log("Sending pos update.");
                 passage.x = $div.offset().left;
                 passage.y = $div.offset().top;
-                passage.sendPos();
+                passage.sendPos(true);
             }
         });
         passage.moveTo(10, 70 + 10*newPassageCount);
@@ -303,7 +304,7 @@ function loadStory(storyString) {
         passages[passage.title] = passage;
     }
     for (var title in passages) {
-        passages[title].refreshLinks();
+        passages[title].refreshLinks(false);
     }
     paper.setSize($(document).width(), $(document).height());
     

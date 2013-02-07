@@ -12,15 +12,17 @@ class StoryNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         
         changed = False
         if 'x' in passage_update and 'y' in passage_update:
-            passage.x = passage_update['x']
-            passage.y = passage_update['y']
-            changed = True
+            if passage.x != passage_update['x'] or passage.y != passage_update['y']:
+                passage.x = passage_update['x']
+                passage.y = passage_update['y']
+                changed = True
         
         if 'content' in passage_update:
-            passage.content = passage_update['content']
-            changed = True
+            if passage.content != passage_update['content']:
+                passage.content = passage_update['content']
+                changed = True
 
-        if changed:
+        if changed and passage_update['save']:
             passage.save()
 
         self.emit_to_room(story_key, 'passage', passage_update)
@@ -37,8 +39,5 @@ class StoryNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
     
     def on_delete(self, story_key, passage):
         print("Deleting %s" % passage)
-        try:
-            Passage.objects.get(story__key = story_key, title=passage).delete()
-        except Passage.DoesNotExist:
-            return
         self.emit_to_room(story_key, 'delete', passage)
+        Passage.objects.get(story__key = story_key, title=passage).delete()

@@ -22,7 +22,7 @@ socket.on('connected', function(data) {
     connected = true;
     console.log('connected.');
     for (var title in passages) {
-        passages[title].refreshLinks();
+        passages[title].refreshLinks(false);
     }
 });
 
