@@ -1,4 +1,4 @@
 *.pyc
 encordy.db
-static/
+/static/
 twee/
