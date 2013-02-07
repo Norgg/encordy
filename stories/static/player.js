@@ -20,18 +20,18 @@ $(function() {
     loadStory(atob(window.location.hash.slice(6)));
   }
 
-  $('#play').click(function(e) {
+  /*$('#play').click(function(e) {
     e.preventDefault();
     play();
-  });
+  });*/
 
   $('#restart').click(function(e) {
     e.preventDefault();
     passages['Start'].enter();
   });
 
-  $('#player').on('click', '.passage-link', function(e) {
+  /*$('#player').on('click', '.passage-link', function(e) {
     e.preventDefault();
     passages[$(e.target).attr('href')].enter();
-  });
+  });*/
 });

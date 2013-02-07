@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from twee.lib.tiddlywiki import TiddlyWiki
 import json
 
 class Story(models.Model):
@@ -18,6 +19,21 @@ class Story(models.Model):
     
     def json(self):
         return json.dumps(self.as_dict())
+
+    def to_tw(self):
+        return """:: StoryTitle
+%s
+
+%s""" % (self.title, "\n\n".join([passage.to_tw() for passage in self.passages.all()]))
+
+    def to_html(self):
+        tw = TiddlyWiki()
+        tw.addTwee(self.to_tw())
+        return "%s%s%s" % (
+            open('twee/targets/sugarcane/header.html').read(),
+            tw.toHtml(),
+            '</div></html>'
+        )
     
 class Passage(models.Model):
     story = models.ForeignKey(Story, related_name="passages")
@@ -36,3 +52,10 @@ class Passage(models.Model):
 
     def json(self):
         return json.dumps(self.as_dict())
+
+    def to_tw(self):
+        if self.title == "Start":
+            tw_title = ":: Start [bookmark]"
+        else:
+            tw_title = ":: %s" % self.title
+        return "%s\n%s" % (tw_title, self.content)

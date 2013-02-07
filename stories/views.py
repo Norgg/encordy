@@ -23,7 +23,7 @@ def edit_story(request, key=None):
 
 def play_story(request, key=None):
     story = Story.objects.get(key=key)
-    return render(request, 'play.html', dict(story=story))
+    return HttpResponse(story.to_html())
 
 def json_story(request, key=None):
     json = Story.objects.get(key=key).json()
