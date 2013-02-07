@@ -10,6 +10,7 @@ passageFunctions.edit = function() {
         $input.val(this.content);
         $content.html($input);
         $input.focus();
+        $input.click(function(e) {e.stopPropagation();});
         passage.editing = true;
 
         var $saveButton = $('<button>Save</button>');

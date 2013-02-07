@@ -14,10 +14,10 @@ try {
 } catch (error) {
     console.log("Error loading Raphael.");
 }
-/*$('body').attr('unselectable', 'on')
+$('body').attr('unselectable', 'on')
  .css('user-select', 'none')
  .on('selectstart', false);
-*/
+
 
 // TODO: Especially this socket stuff.
 var socket = io.connect('', {})
