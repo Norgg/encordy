@@ -1,41 +1,36 @@
 <html>
-  <head>
+<head>
     <title>encordy</title>
     <link rel="stylesheet" href="/static/encordy.css" type="text/css" />
     <style id="custom-style"></style>
-  </head>
-  <body>
+</head>
+<body>
     <div id="editor">
-      <div id="menu">
-        <h1 class="title">Encordy</h1>
-          <span id="create-tools" class="tools">
-            <a href="javascript:void(0)" id="new-passage">Add Passage</a>
-            <a href="javascript:void(0)" id="rename">Rename</a>
-          </span>
-          <span id="share-tools" class="tools">
-            <a href="{% url play_story key=story.key%}" id="play">Play</a>
-          </span>
-          <span id="help-tools" class="tools">
-            <a href="javascript:void(0)" id="help">Help</a> 
-            <a href="{% url edit_story key='example'%}" id="example">Example</a>
-          </span>
-          <span id="export-tools" class="tools">
-            <a href="{% url play_story key=story.key%}" download="{{story.title}}.html" id="play">Export HTML</a>
-            <!--TODO: <a href="{% url play_story key=story.key%}" download="{{story.title}}.html" id="play">Export .tw</a>-->
-          </span>
-        <input type="file" id="loadInput" style="display: none;" value="Load"/>
-      </div>
-      <div id="help-text">
-        Put words in the boxes.<br/>
-        Link to (and create) a new passage like [[this]].<br/>
-        Create a passage called &lt;&lt;css&gt;&gt; to style your story.<br/>
-        HTML tags should mostly work.<br/>
-        Can drag a savefile onto the page to load it.<br/>
-        All a bit alpha right now. Find me on irc or twitter if something is broken.<br/>
-      </div>
-      <div id="story">
-      </div>
-      <div id="canvas"></div>
+        <div id="menu">
+            <h1 class="title">Encordy</h1>
+            <span id="create-tools" class="tools">
+                <a href="javascript:void(0)" id="new-passage">Add Passage</a>
+                <a href="javascript:void(0)" id="rename">Rename</a>
+            </span>
+            <span id="share-tools" class="tools">
+                <a href="{% url play_story key=story.key%}" id="play">Play</a>
+            </span>
+            <span id="help-tools" class="tools">
+                <a href="javascript:void(0)" id="help">Help</a> 
+                <a href="{% url edit_story key='example'%}" id="example">Example Story</a>
+            </span>
+            <span id="export-tools" class="tools">
+                <a href="{% url play_story key=story.key%}" download="{{story.title}}.html" id="play">Export HTML</a>
+                <!--TODO: <a href="{% url play_story key=story.key%}" download="{{story.title}}.html" id="play">Export .tw</a>-->
+            </span>
+            <input type="file" id="loadInput" style="display: none;" value="Load"/>
+        </div>
+        <div id="help-text">
+            {% include "_help.html" %}
+        </div>
+        <div id="story">
+        </div>
+        <div id="canvas"></div>
     </div>
     
     <div id="player">
@@ -56,5 +51,5 @@
     <script src="/static/passage.js"></script>
     <script src="/static/editor.js"></script>
     <script src="/static/player.js"></script>
-  </body>
+</body>
 </html>

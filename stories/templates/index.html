@@ -1,19 +1,30 @@
 <html>
-  <head>
-    <title>encordy</title>
+<head>
+    <title>Encordy</title>
     <link rel="stylesheet" href="static/encordy.css" type="text/css" />
     <style id="custom-style"></style>
-  </head>
-  <body>
+</head>
+<body>
     <div id="editor">
-      <div id="menu">
-        <h1 class="title">Encordy</h1>
-      </div>
+        <div id="menu">
+            <h1 class="title">Encordy</h1>
+            <span id="story-tools" class="tools">
+                <a href="{% url edit_story key=key%}" id="edit">New Story</a>
+            </span>
+            <span id="help-tools" class="tools">
+                <a href="{% url edit_story key='example'%}" id="example">Example Story</a>
+            </span>
+        </div>
+        <div id="welcome">
+            Welcome to Ecordy.  Click above to start a new story.
+            <h3>Instructions</h3>
+            {% include "_help.html" %}
+        </div>
     </div>
     
     <script src="/static/jquery.min.js"></script>
     <script src="/static/jquery-ui.min.js"></script>
     <script src="/static/raphael-min.js"></script>
-  </body>
+</body>
 </html>
 

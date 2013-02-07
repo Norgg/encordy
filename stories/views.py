@@ -7,9 +7,14 @@ from namespaces import StoryNamespace
 from models import Story, Passage
 
 def home(request):
-    return render(request, 'index.html')
+    key = User.objects.make_random_password(10)
+    while Story.objects.filter(key=key).count() > 0:
+        print("Trying new key")
+        key = User.objects.make_random_password(11)
+        
+    return render(request, 'index.html', dict(key=key))
 
-def edit_story(request, key=None):
+def edit_story(request, key):
     story, created = Story.objects.get_or_create(key=key)
     if created:
         if request.user.is_authenticated():
@@ -21,11 +26,11 @@ def edit_story(request, key=None):
 
     return render(request, 'edit.html', dict(story=story))
 
-def play_story(request, key=None):
+def play_story(request, key):
     story = Story.objects.get(key=key)
     return HttpResponse(story.to_html())
 
-def json_story(request, key=None):
+def json_story(request, key):
     json = Story.objects.get(key=key).json()
     return HttpResponse(json, content_type="application/json")
 
