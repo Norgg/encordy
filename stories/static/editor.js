@@ -27,6 +27,7 @@ $(function() {
     e.stopPropagation();
     storyTitle = prompt("Rename story:", storyTitle);
     $('.title').text(storyTitle);
+    socket.emit('rename_story', storyKey, storyTitle);
   });
 
   $('#save').click(function(e) {

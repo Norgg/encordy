@@ -50,4 +50,9 @@ socket.on('passage', function(data) {
 socket.on('delete', function(passage) {
     passages[passage].remove();
 });
+
+socket.on('rename_story', function(title) {
+    storyTitle = title;
+    $('.title').text(storyTitle);
+});
 socket.emit('connect', storyKey);

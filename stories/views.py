@@ -16,6 +16,12 @@ def home(request):
 
 def edit_story(request, key):
     story, created = Story.objects.get_or_create(key=key)
+    
+    new_key = User.objects.make_random_password(10)
+    while Story.objects.filter(key=new_key).count() > 0:
+        print("Trying new key")
+        new_key = User.objects.make_random_password(11)
+    
     if created:
         if request.user.is_authenticated():
             story.owner = request.user
@@ -24,7 +30,7 @@ def edit_story(request, key):
 
         Passage.objects.create(story=story, title="Start", content="Your story will display this passage first. Edit it by clicking it.", x=10, y=70)
 
-    return render(request, 'edit.html', dict(story=story))
+    return render(request, 'edit.html', dict(story=story, new_key=new_key))
 
 def play_story(request, key):
     story = Story.objects.get(key=key)

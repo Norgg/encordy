@@ -35,9 +35,18 @@ class StoryNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         for passage in story.passages.all():
             print(passage.title)
             self.emit('passage', passage.as_dict())
+        self.emit('rename_story', story.title)
         self.emit('connected')
     
     def on_delete(self, story_key, passage):
         print("Deleting %s" % passage)
         self.emit_to_room(story_key, 'delete', passage)
         Passage.objects.get(story__key = story_key, title=passage).delete()
+
+    def on_rename_story(self, story_key, title):
+        print("Renaming to %s" % title)
+        story = Story.objects.get(key=story_key)
+        story.title = title
+        story.save()
+        self.emit_to_room(story_key, 'rename_story', title)
+
