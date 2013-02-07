@@ -69,10 +69,18 @@ passageFunctions.refreshLinks = function(create) {
     pattern = /\[\[(.*?)\]\]/g;
     var match;
     while (match = pattern.exec(this.content)) {
-        var title = match[1].split("|")[0]
+        var createThis = create;
+        var toks = match[1].split("|")
+        var title = toks[0];
+        if (toks.length > 1) {
+            title = toks.slice(1).join("|");
+        }
+        if (title.match(/https?:/)) {
+            createThis = false;
+        }
         if (passages[title]) {
             this.link(passages[title]);
-        } else if (create) {
+        } else if (createThis) {
             var newPassage = createPassage(title, "");
             this.link(newPassage);
             newPassage.moveTo(this.x + 230 + (10*this.links.length), this.y, false);
