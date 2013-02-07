@@ -12,6 +12,7 @@ passageFunctions.edit = function() {
         $input.focus();
         $input.click(function(e) {e.stopPropagation();});
         passage.editing = true;
+        this.div().draggable('disable');
 
         var $saveButton = $('<button>Save</button>');
         $content.append($saveButton);
@@ -22,6 +23,7 @@ passageFunctions.edit = function() {
                 console.log("Sending post-save update.");
                 passage.sendAll();
             };
+            passage.div().draggable('enable');
         });
         
         var $resetButton = $('<button class="reset-button">Reset</button>');
