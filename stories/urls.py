@@ -3,7 +3,8 @@ from django.conf.urls import patterns, include, url
 import views
 
 with_key = patterns('',
-    url('^/edit/$', views.edit_story, name='edit_story'),
+    url('^$', views.edit_story, name='edit_story'),
+    url('^/edit/$', views.edit_story, name='edit_story_verbose'),
     url('^/play/$', views.play_story, name='play_story'),
     url('^.json$', views.json_story, name='json_story'),
 )

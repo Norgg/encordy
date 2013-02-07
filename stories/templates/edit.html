@@ -7,7 +7,7 @@
 <body>
     <div id="editor">
         <div id="menu">
-            <h1 class="title">Encordy</h1>
+            <h1 class="title"><a href="/">Encordy</a></h1>
             <span id="create-tools" class="tools">
                 <a href="javascript:void(0)" id="new-passage">Add Passage</a>
                 <a href="javascript:void(0)" id="rename">Rename</a>
@@ -17,7 +17,7 @@
             </span>
             <span id="help-tools" class="tools">
                 <a href="javascript:void(0)" id="help">Help</a> 
-                <a href="{% url edit_story key='example'%}" id="example">Example Story</a>
+                <a href="{% url edit_story key='sandbox'%}">Sandbox Story</a>
             </span>
             <span id="export-tools" class="tools">
                 <a href="{% url play_story key=story.key%}" download="{{story.title}}.html" id="play">Export HTML</a>
