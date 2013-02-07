@@ -317,6 +317,14 @@ function createPassage(title, content) {
                 passage.y = $div.offset().top;
                 passage.sendPos(true);
             }
+        }).touch({
+            animate: false,
+            sticky: false,
+            dragx: true,
+            dragy: true,
+            rotate: false,
+            resort: true,
+            scale: false
         });
         passage.moveTo(10 + 20*newPassageCount, 70 + 20*newPassageCount, false);
     }
