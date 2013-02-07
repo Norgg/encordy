@@ -54,8 +54,11 @@ h1 a {
     background: #ccc;
     color: black;
     width: 500px;
-    margin-left: 350px;
+    margin-left: 300px;
+    position: absolute;
     z-index: 10000000;
+    padding: 10px;
+    border: 1px solid black;
 }
 
 #story {
@@ -108,20 +111,4 @@ h1 a {
     top: 0px;
     left: 0px;
     z-index: -1;
-}
-
-#player {
-    display: none;
-}
-
-#player-content {
-    color: white;
-    font-size: 1.3em;
-    padding: 10px;
-    width: 500px;
-    white-space: pre-wrap;
-}
-
-.passage-link {
-    color: #ccc;
 }

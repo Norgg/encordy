@@ -278,8 +278,7 @@ function createPassage(title, content) {
                 passage.sendPos(true);
             }
         });
-        passage.moveTo(10, 70 + 10*newPassageCount, false);
-        newPassageCount++;
+        passage.moveTo(10 + 20*newPassageCount, 70 + 20*newPassageCount, false);
     }
     
     //Need to refresh links for everything, as per renaming.
@@ -294,7 +293,7 @@ function createPassage(title, content) {
     return passage;
 }
 
-function loadStory(storyString) {
+function loadStory(story) {
     //Remove existing passages.
     for (var title in passages) {
         passages[title].remove();
@@ -302,8 +301,10 @@ function loadStory(storyString) {
 
     passages = {};
     paper.clear();
-
-    var story = JSON.parse(storyString);
+    
+    if (typeof story == "string") {
+        story = JSON.parse(story);
+    }
     var loadedPassages = story.passages;
 
     for (var idx in loadedPassages) {
@@ -321,26 +322,6 @@ function loadStory(storyString) {
     
     storyTitle = story.title;
     $('.title').text(storyTitle);
-}
-
-function storyToJSON() {
-    var passagesToSave = {};
-
-    for (passageID in passages) {
-        passage = passages[passageID];
-        savePassage = {};
-        savePassage.title = passage.title;
-        savePassage.content = passage.content;
-        savePassage.x = passage.x;
-        savePassage.y = passage.y;
-        passagesToSave[passage.title] = savePassage;
-    }
-
-    var story = {
-        title: storyTitle,
-        passages: passagesToSave
-    };
-    return JSON.stringify(story);
 }
 
 function storyToHTML() {

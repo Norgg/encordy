@@ -2,6 +2,7 @@ $(function() {
   //createPassage('Start', 'Your story will display this passage first. Edit it by clicking it.');  
 
   $('body').on('click', '.passage', function(e) {
+    if (!connected) return;
     e.preventDefault();
     e.stopPropagation();
     var title = $(this).find('.passage-title').text();
@@ -10,8 +11,15 @@ $(function() {
   });
 
   $('#new-passage').click(function(e) {
+    if (!connected) return;
     newPassageCount++;
-    createPassage("New passage #" + newPassageCount, "");
+    var title = "New passage #" + newPassageCount;
+    while (passages[title]) {
+        newPassageCount++;
+        title = "New passage #" + newPassageCount;
+    }
+    var passage = createPassage(title, "");
+    passage.sendAll();
   });
 
   $('#edit').click(function(e) {
@@ -23,11 +31,15 @@ $(function() {
   });
 
   $('#rename').click(function(e) {
+    if (!connected) return;
     e.preventDefault();
     e.stopPropagation();
-    storyTitle = prompt("Rename story:", storyTitle);
-    $('.title').text(storyTitle);
-    socket.emit('rename_story', storyKey, storyTitle);
+    var newTitle = prompt("Rename story:", storyTitle);
+    if (newTitle) {
+        storyTitle = newTitle
+        $('.title').text(storyTitle);
+        socket.emit('rename_story', storyKey, storyTitle);
+    }
   });
 
   $('#save').click(function(e) {
@@ -88,6 +100,9 @@ $(function() {
 
   $('#help').click(function(e) {
     $('#help-text').toggle(200);
+  });
+  $('#help-close').click(function(e) {
+    $('#help-text').hide(200);
   });
   /*
   $('body').mousedown(function(e) {

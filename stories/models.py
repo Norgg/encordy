@@ -7,6 +7,7 @@ class Story(models.Model):
     title = models.CharField(max_length=1024, default="New Story")
     owner = models.ForeignKey(User, related_name="stories", null=True)
     key = models.CharField(max_length=256)
+    play_key = models.CharField(max_length=256, default=lambda:User.objects.make_random_password(10))
 
     def save(self, *args, **kwargs):
         return super(Story, self).save(*args, **kwargs)
@@ -14,7 +15,7 @@ class Story(models.Model):
     def as_dict(self):
         return dict(
             title    = self.title, 
-            passages = dict([(passage.title, passage.dict()) for passage in self.passages.all()])
+            passages = [passage.as_dict() for passage in self.passages.all()]
         )
     
     def json(self):

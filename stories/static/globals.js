@@ -21,9 +21,7 @@ var connected = false;
 socket.on('connected', function(data) {
     connected = true;
     console.log('connected.');
-    for (var title in passages) {
-        passages[title].refreshLinks(false);
-    }
+    loadStory(data);
 });
 
 socket.on('passage', function(data) {
