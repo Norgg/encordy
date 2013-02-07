@@ -8,8 +8,12 @@ var $story = $('#story');
 var lastMouse = [0,0];
 var mouseDown = false;
 
-paper = Raphael($('#canvas')[0], $(document).width(), $(document).height());
-
+var paper = null;
+try {
+    var paper = Raphael($('#canvas')[0], $(document).width(), $(document).height());
+} catch (error) {
+    console.log("Error loading Raphael.");
+}
 $('body').attr('unselectable', 'on')
  .css('user-select', 'none')
  .on('selectstart', false);

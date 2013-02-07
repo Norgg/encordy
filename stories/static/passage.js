@@ -171,6 +171,8 @@ passageFunctions.moveTo = function(x, y, animate) {
 }
 
 passageFunctions.drawPaths = function() {
+    if (!paper) return;
+
     for (var i in this.links) {
         var link = this.links[i];
         var pathAttrs = [
@@ -300,7 +302,7 @@ function createPassage(title, content) {
                 for (var i in passage.linksFrom) {
                     passage.linksFrom[i].drawPaths();
                 }
-                if (paper.width != $(document).width() || paper.height != $(document).height()) {
+                if (paper && (paper.width != $(document).width() || paper.height != $(document).height())) {
                     paper.setSize($(document).width(), $(document).height());
                 }
                 if ($('body').width() != $(document).width() || $('body').height != $(document).height()) {
@@ -338,7 +340,7 @@ function loadStory(story) {
     }
 
     passages = {};
-    paper.clear();
+    if (paper) paper.clear();
     
     if (typeof story == "string") {
         story = JSON.parse(story);
@@ -356,7 +358,7 @@ function loadStory(story) {
     for (var title in passages) {
         passages[title].refreshLinks(false);
     }
-    paper.setSize($(document).width(), $(document).height());
+    if (paper) paper.setSize($(document).width(), $(document).height());
     
     storyTitle = story.title;
     $('.title').text(storyTitle);
