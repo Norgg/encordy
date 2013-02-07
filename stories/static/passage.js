@@ -9,10 +9,14 @@ passageFunctions.edit = function() {
         var $input = $('<textarea class=".passage-textarea"></textarea>');
         $input.val(this.content);
         $content.html($input);
-        $input.focus();
         $input.click(function(e) {e.stopPropagation();});
         passage.editing = true;
-        this.div().draggable('disable');
+
+        //Disable draging while editing on mobiles.
+        if( /Android|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+            this.div().draggable('disable');
+        }
+
 
         var $saveButton = $('<button>Save</button>');
         $content.append($saveButton);
@@ -43,6 +47,7 @@ passageFunctions.edit = function() {
                 if (confirm("Delete passage?")) passage.remove();
             });
         }
+        $input.focus();
     }
 };
 
