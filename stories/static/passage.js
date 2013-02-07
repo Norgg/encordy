@@ -101,10 +101,10 @@ passageFunctions.setTitle = function(newTitle) {
 
         this.title = newTitle;
         passages[this.title] = this;
-        var linksFromIdx = this.linksFrom.length
-        while (linksFromIdx > 0) {
-            linksFromIdx--;
-            this.linksFrom[linksFromIdx].refreshLinks(false);
+        //Need to refresh links for everything, in case the new title was linked to by something else.
+        //TODO: Probably need to speed this up.
+        for (var title in passages) {
+            passages[title].refreshLinks(false);
         }
         this.div().find('.passage-title').text(this.title);
     }
@@ -278,6 +278,13 @@ function createPassage(title, content) {
         newPassageCount++;
     }
     
+    //Need to refresh links for everything, as per renaming.
+    //It's a rare case that something else would link to a new passage, but need to check regardless.
+    //TODO: Optimise this.
+    for (var title in passages) {
+        passages[title].refreshLinks(false);
+    }
+
     console.log('Created passage.');
     //passage.sendAll();
     return passage;
