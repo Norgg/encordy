@@ -5,9 +5,9 @@ passageFunctions.edit = function() {
     if (!this.editing) {
         var passage = this;
         var $content = this.div().find('.passage-content');
-        
+
         var $input = $('<textarea class=".passage-textarea"></textarea>');
-        $input.val(this.title + "\n" + this.content);
+        $input.val(this.content);
         $content.html($input);
         $input.focus();
         passage.editing = true;
@@ -43,20 +43,51 @@ passageFunctions.edit = function() {
     }
 };
 
+passageFunctions.editTitle = function() {
+    if (!this.editingTitle) {
+        var passage = this;
+        var $title = this.div().find('.passage-title');
+
+        var $titleInput=$('<input class=".title-input"/>');
+        $titleInput.val(this.title)
+        $title.html($titleInput);
+        $titleInput.focus();
+        
+        var saveTitle = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (passage.setTitle($titleInput.val())) {
+                console.log("Sending post-title change update.");
+                passage.sendAll();
+            };
+            $title.text(passage.title);
+            passage.editingTitle = false;
+        };
+
+        $titleInput.keypress(function(e) {
+            if (e.keyCode == 13) {
+                saveTitle(e);
+            }
+        });
+
+
+        var $saveButton = $('<button>Save</button>');
+        $title.append($saveButton);
+        $saveButton.click(saveTitle);
+
+        passage.editingTitle = true;
+    }
+}
+
 
 passageFunctions.save = function(content) {
     console.log("Saving.");
     var $content = this.div().find('.passage-content');
-    var lines = content.split("\n");
-    if (this.setTitle(lines.shift())) {
-        this.content = lines.join("\n");
-        this.editing = false;
-        this.refreshLinks(true);
-    
-        $content.text(this.content);
-        return true;
-    }
-    return false;
+    this.content = content;
+    $content.text(this.content);
+    this.editing = false;
+    this.refreshLinks(true);
+    return true;
 };
 
 passageFunctions.refreshLinks = function(create) {
@@ -97,7 +128,6 @@ passageFunctions.setTitle = function(newTitle) {
             return false;
         }
         if (newTitle == "") {
-            alert("Oi! You have to give me a title!");
             return false;
         }
         if (this.title == "Start") {

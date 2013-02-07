@@ -1,13 +1,28 @@
 $(function() {
   //createPassage('Start', 'Your story will display this passage first. Edit it by clicking it.');  
 
-  $('body').on('click', '.passage', function(e) {
+  $('body').on('click', '.passage-content', function(e) {
     if (!connected) return;
     e.preventDefault();
     e.stopPropagation();
-    var title = $(this).find('.passage-title').text();
+    var title = $(this).parent().find('.passage-title').text();
     var passage = passages[title];
     passage.edit();
+  });
+
+  $('body').on('click', '.passage-title', function(e) {
+    if (!connected) return;
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(this);
+    var title = $(this).text();
+    
+    if (title == "Start") return;
+    
+    var passage = passages[title];
+    if (passage) {
+        passage.editTitle();
+    }
   });
 
   $('#new-passage').click(function(e) {
