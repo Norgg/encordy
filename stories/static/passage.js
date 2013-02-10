@@ -51,8 +51,8 @@ passageFunctions.edit = function() {
     }
 };
 
-passageFunctions.lock = function() {
-    socket.emit('lock', storyKey, this.title);
+passageFunctions.lock = function(action) {
+    socket.emit('lock', storyKey, this.title, action);
 };
 
 passageFunctions.editTitle = function() {

@@ -75,9 +75,13 @@ function connect() {
         }, 1000);
     });
 
-    sock.on('grant_lock', function(title) {
+    sock.on('grant_lock', function(title, action) {
         console.log("Lock granted on: " + title);
-        passages[title].edit();
+        if (action == 'content') {
+            passages[title].edit();
+        } else {
+            passages[title].editTitle();
+        }
     });
     
     sock.on('passage_locked', function(title) {

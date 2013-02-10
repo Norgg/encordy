@@ -5,12 +5,12 @@ import json
 
 #TODO: Don't need to send story key for anything except connect, just keep it in the session.
 class StoryNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
-    def on_lock(self, story_key, passage_title):
+    def on_lock(self, story_key, passage_title, action):
         passage = Passage.objects.get(story__key = story_key, title=passage_title)
         if (not passage.locked) or passage_title in self.session['locks']:
             passage.locked = True
             passage.save()
-            self.emit('grant_lock', passage_title)
+            self.emit('grant_lock', passage_title, action)
             self.emit_to_room(story_key, 'passage_locked', passage_title)
             self.session['locks'].add(passage_title)
             print("Locked: %s" % passage_title)
