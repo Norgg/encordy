@@ -72,6 +72,11 @@ h1 a {
     position: absolute;
 }
 
+.locked {
+    background: #222;
+    color: white;
+}
+
 .passage-title {
     width: 190px;
     background: #003;
@@ -80,6 +85,10 @@ h1 a {
     float: left;
     margin: 0px;
     padding: 5px;
+}
+
+.locked .passage-title {
+    background: #111;
 }
 
 .passage-title input {

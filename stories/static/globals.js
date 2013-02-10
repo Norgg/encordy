@@ -31,20 +31,23 @@ function connect() {
         }
     });
 
-    sock.on('passage', function(data) {
-        console.log("Passage: " + data.title, data);
-        var passageUpdate = data;
+    sock.on('passage', function(passageUpdate) {
+        console.log("Passage: " + passageUpdate.title, passageUpdate);
         var passage = passages[passageUpdate.title];
         if (passage) {
             if (passageUpdate.content) {
-                passage.save(passageUpdate.title + "\n" + passageUpdate.content);
+                passage.save(passageUpdate.content);
             } 
         } else {
             if (passageUpdate.content) {
-                passage = createPassage(passageUpdate.title, passageUpdate.content)
+                passage = createPassage(passageUpdate.title, passageUpdate.content);
             } else {
-                passage = createPassage(passageUpdate.title, "")
+                passage = createPassage(passageUpdate.title, "");
             }
+        }
+
+        if (passageUpdate.locked) {
+            passages[title].div().addClass('locked');
         }
         
         if (passage && passageUpdate.x && passageUpdate.y) {
@@ -72,12 +75,29 @@ function connect() {
         }, 1000);
     });
 
+    sock.on('grant_lock', function(title) {
+        console.log("Lock granted on: " + title);
+        passages[title].edit();
+    });
+    
+    sock.on('passage_locked', function(title) {
+        console.log("Someone locked: " + title);
+        passages[title].div().addClass('locked');
+    });
+    
+    sock.on('passage_unlocked', function(title) {
+        console.log("Someone unlocked: " + title);
+        passages[title].div().removeClass('locked');
+    });
+
     sock.on('connect_failed', function () {
         $('.title').text("CONNECTION FAILED :(");
     });
     sock.on('error', function () {
         $('.title').text("CONNECTION ERROR :(");
     });
+
+    $(window).on('beforeunload',function(){sock.disconnect();});
 
     return sock;
 }

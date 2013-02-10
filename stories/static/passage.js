@@ -51,6 +51,10 @@ passageFunctions.edit = function() {
     }
 };
 
+passageFunctions.lock = function() {
+    socket.emit('lock', storyKey, this.title);
+};
+
 passageFunctions.editTitle = function() {
     if (!this.editingTitle) {
         var passage = this;
@@ -363,6 +367,7 @@ function loadStory(story) {
         passage.div().offset({'left': loadedPassage.x, 'top': loadedPassage.y});
         passage.x = loadedPassage.x;
         passage.y = loadedPassage.y;
+        if (loadedPassage.locked) passage.div().addClass('locked');
         passages[passage.title] = passage;
     }
     for (var title in passages) {

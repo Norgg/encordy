@@ -7,7 +7,7 @@ $(function() {
     e.stopPropagation();
     var title = $(this).parent().find('.passage-title').text();
     var passage = passages[title];
-    passage.edit();
+    passage.lock();
   });
 
   $('body').on('click', '.passage-title', function(e) {

@@ -42,13 +42,15 @@ class Passage(models.Model):
     content = models.TextField(blank=True)
     x = models.IntegerField(default=0, blank=True)
     y = models.IntegerField(default=0, blank=True)
+    locked = models.BooleanField(default=False)
 
     def as_dict(self):
         return dict(
             title   = self.title,
             content = self.content,
             x       = self.x,
-            y       = self.y
+            y       = self.y,
+            locked  = self.locked
         )
 
     def json(self):
