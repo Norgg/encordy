@@ -35,10 +35,12 @@ class Story(models.Model):
         tw = TiddlyWiki()
         tw.addTwee(self.to_tw())
         tw.storysettings['Obfuscate'] = False
-        return "%s%s%s" % (
-            open('twee/targets/sugarcane/header.html').read(),
-            tw.toHtml(FakeApp()),
-            '</div></html>'
+        import codecs
+        header = codecs.open('twine/targets/Responsive/header.html', encoding='utf-8').read()
+        return u"%s%s%s" % (
+            header,
+            unicode(tw.toHtml(FakeApp())),
+            u'</div></html>'
         )
     
 class Passage(models.Model):
