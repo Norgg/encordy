@@ -1,7 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-from twee.lib.tiddlywiki import TiddlyWiki
+from twine.tiddlywiki import TiddlyWiki
 import json
+
+class FakeApp(object):
+    def getPath(self):
+        return ''
 
 class Story(models.Model):
     title = models.CharField(max_length=1024, default="New Story")
@@ -30,9 +34,10 @@ class Story(models.Model):
     def to_html(self):
         tw = TiddlyWiki()
         tw.addTwee(self.to_tw())
+        tw.storysettings['Obfuscate'] = False
         return "%s%s%s" % (
             open('twee/targets/sugarcane/header.html').read(),
-            tw.toHtml(),
+            tw.toHtml(FakeApp()),
             '</div></html>'
         )
     
