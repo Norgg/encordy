@@ -37,6 +37,7 @@ class StoryNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
                     self.emit('deny_edit', passage.title)
                     return
                 passage.content = passage_update['content']
+                changed = True
             if passage.locked:
                 passage.locked = False
                 changed = True
