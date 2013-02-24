@@ -33,7 +33,7 @@ class StoryNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         
         if 'content' in passage_update:
             if passage.content != passage_update['content']:
-                if passage.title not in self.session['locks']:
+                if passage.title not in self.session['locks'] and not created:
                     self.emit('deny_edit', passage.title)
                     return
                 passage.content = passage_update['content']
