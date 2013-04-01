@@ -162,7 +162,7 @@ passageFunctions.setTitle = function(newTitle) {
 };
 
 passageFunctions.resetInput = function() {
-    this.div().find('textarea').val(this.title + "\n" + this.content);
+    this.div().find('textarea').val(this.content);
 }
 
 passageFunctions.moveTo = function(x, y, animate) {

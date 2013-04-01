@@ -22,6 +22,10 @@ $('body').attr('unselectable', 'on')
 // TODO: Especially this socket stuff.
 function connect() {
     var sock = io.connect('')
+    sock.on('connect', function() {
+      sock.emit('connect', storyKey);
+    });
+
     sock.on('connected', function(data) {
         if (!connected) {
             connected = true;
@@ -63,7 +67,6 @@ function connect() {
         storyTitle = title;
         $('.title').text(storyTitle);
     });
-    sock.emit('connect', storyKey);
 
     sock.on('disconnect', function(data) {
         connected = false;

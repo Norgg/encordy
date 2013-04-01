@@ -10,6 +10,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root='/home/norgg/encordy/static')),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', dict(document_root='static')),
     url(r'^socket\.io', stories.views.socket, name='socketio_service'),
 )
